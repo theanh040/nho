@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <title>Bảo này này</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: Arial, Helvetica, sans-serif;
+            background: linear-gradient(to bottom right, #fbe7e7, #ffe0b2);
+            overflow: hidden;
+        }
+
+        h1 {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            font-size: 50px;
+            color: #333;
+            transform: translateX(-50%);
+            text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        button {
+            position: absolute;
+            bottom: 20px;
+            z-index: 1;
+            padding: 15px 30px;
+            font-size: 18px;
+            cursor: pointer;
+            background-color: #ff4081;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s ease, background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #e91e63;
+            transform: scale(1.1);
+        }
+
+        .noti {
+            position: absolute;
+            width: 240px;
+            min-height: 160px;
+            background: #ffb6c1;
+            border: 3px solid white;
+            border-radius: 10px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            opacity: 0;
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+
+        .noti-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            background: #ffffff;
+            border-bottom: 1px solid #ddd;
+            font-size: 16px;
+            color: #333;
+            border-radius: 10px 10px 0 0;
+        }
+
+        .noti-header span {
+            text-align: center;
+            flex-grow: 1;
+        }
+
+        .noti p {
+            margin: 0;
+            padding: 20px;
+            font-size: 14px;
+            color: #444;
+            text-align: center;
+            line-height: 1.5;
+        }
+
+        .minimize-btn {
+            font-size: 20px;
+            cursor: pointer;
+            border: none;
+            background: transparent;
+            color: #333;
+            transition: color 0.3s ease;
+        }
+
+        .minimize-btn:hover {
+            color: #ff4081;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Bảo này này</h1>
+    <button onclick="generateRandomNoti()">Ấn đây</button>
+
+    <script>
+        const messages = ["Nhớ bé quá huhu"];
+
+        function generateRandomNoti() {
+            const notiCount = 100;
+            for (let i = 0; i < notiCount; i++) {
+                setTimeout(() => {
+                    const noti = document.createElement('div');
+                    noti.className = 'noti';
+
+                    const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+                    noti.innerHTML = `
+                        <div class="noti-header">
+                            <button class="minimize-btn" onclick="minimizeNoti(this)">×</button>
+                        </div>
+                        <p>${randomMessage}</p>
+                    `;
+
+                    // Đặt vị trí ngẫu nhiên
+                    const x = Math.random() * (window.innerWidth - 240);
+                    const y = Math.random() * (window.innerHeight - 160);
+                    noti.style.left = `${x}px`;
+                    noti.style.top = `${y}px`;
+
+                    // Thêm thông báo vào cuối body
+                    document.body.appendChild(noti);
+                }, i * 500); // Mỗi thông báo xuất hiện sau 500ms
+            }
+        }
+
+        function minimizeNoti(button) {
+            const noti = button.closest('.noti');
+            noti.style.transition = 'transform 0.3s ease, opacity 0.3s ease';
+            noti.style.transform = 'scale(0.5)';
+            noti.style.opacity = '0';
+            setTimeout(() => noti.remove(), 300);
+        }
+    </script>
+</body>
+</html>
